@@ -25,9 +25,6 @@ wp_reset_query();
 											<div class="radio-wrapper">
 												<div class="radio-tagline"><?php echo get_post_meta($post->ID, 'fccpod_header_description', true); ?></div>
 
-											<?php load_template( FCCPOD__PLUGIN_PATH . 'includes/templates/radio-thisweeksshow.php' ); ?><!--this weeks show-->
-											<?php load_template( FCCPOD__PLUGIN_PATH . 'includes/templates/radio-upcomingshows.php' ); ?><!--upcoming shows-->
-											<?php load_template( FCCPOD__PLUGIN_PATH . 'includes/templates/radio-stations.php' ); ?><!--stations-->
 											<?php load_template( FCCPOD__PLUGIN_PATH . 'includes/templates/radio-podcasts.php' ); ?><!--podcasts-->
 
 											<div class="radio-contact">Contact Bret:</div><br>

@@ -28,7 +28,7 @@ function fccpod_plugin_activation() {
 	# Flush our rewrite rules on activation.
 	flush_rewrite_rules();
 	#Create radio page if it doesn't exist.
-	fccpod_create_radio_page();
+	fccpod_create_podcast_page();
 }
 register_activation_hook( __FILE__, 'fccpod_plugin_activation' );
 
@@ -50,17 +50,17 @@ register_deactivation_hook( __FILE__, 'fccpod_plugin_deactivation' );
  * @since 0.16.02.17
  * @version 1.16.05.26
  */
-function fccpod_create_radio_page() {
+function fccpod_create_podcast_page() {
 	# Initialize the page ID to -1. This indicates no action has been taken.
 	$post_id = -1;
 
 	# Setup the author, slug, and title for the post
 	$author_id = 1;
-	$slug = 'radio';
-	$title = 'Radio';
+	$slug = 'podcasts';
+	$title = 'Podcasts';
 
 	# If the page doesn't already exist, then create it
-	if ( null == get_page_by_path( 'radio' ) ) {
+	if ( null == get_page_by_path( 'podcasts' ) ) {
 		# Set the post ID so that we know the post was created successfully
 		$post_id = wp_insert_post( array(
 			'comment_status'	=> 'closed',
@@ -90,7 +90,9 @@ if ( ! get_option( 'fccpod_podcast_terms' ) ) {
 }
 
 # JW Platform/BOTR API
-require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
+if ( ! class_exists( 'BotrAPI' ) ) {
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
+}
 
 # Page Template Redirects
 require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
@@ -204,7 +206,6 @@ function load_on_podcasts_admin() {
 	if ( 'podcasts' != $screen->id ) {
 		return;
 	} # Else Proceed
-	wp_enqueue_script( 'admin_title_disable', plugin_dir_url( __FILE__ ) . '/includes/js/admin_title_disable.js' );
 	wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
 }
 add_action( 'admin_enqueue_scripts', 'load_on_podcasts_admin' );
