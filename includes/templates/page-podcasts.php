@@ -1,60 +1,17 @@
-<?php get_header(); ?>
 <?php
-# Fixes Top News Theme Page Title/misc bugs.
-wp_reset_postdata();
-wp_reset_query();
-?>
-		</div><!--head-wrap-in-->
-	</div><!--head-wrap-out-->
-</div><!--head-wrap-->
-<div id="content-wrapper" class="left relative">
-		<div class="content-out" class="relative">
-			<div class="content-in">
-				<div id="post-social-out" class="relative">
-					<div id="post-social-in">
-						<div id="post-content-out">
-							<div id="post-content-in">
-								<div id="post-content-contain" class="left relative">
-								<div id="post-content-wrapper" class="relative" <?php post_class(); ?>>
-									<div id="post-area" class="left relative">
+/**
+ * Custom Podcast Page
+ */
 
-										<h1 class="story-title entry-title radio" itemprop="name headline"><?php the_title(); ?></h1> <!-- !? PAGE TITLE -->
-										<div id="content-area" class="left relative" itemprop="articleBody">
-											<!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
+get_header(); ?>
 
-											<div class="radio-wrapper">
-												<div class="radio-tagline"><?php echo get_post_meta($post->ID, 'fccpod_header_description', true); ?></div>
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
 
-											<?php load_template( FCCPOD__PLUGIN_PATH . 'includes/templates/radio-podcasts.php' ); ?><!--podcasts-->
+				<?php load_template( FCCPOD__PLUGIN_PATH . 'includes/templates/radio-podcasts.php' ); ?><!--podcasts-->
 
-											<div class="radio-contact">Contact Bret:</div><br>
-											<?php //echo get_option('options_fccpod_radio_contact'); ?>
-											<?php
-											/**
-											 * Jetpack Contact Forms workaround  // TODO: Make this not suck
-											 * Source: https://wordpress.org/support/topic/jetpack-contact-form-not-working-with-do_shortcode?replies=9
-											 */
-											$contact_form_page_id = get_post_meta($post->ID, 'fccpod_radio_contact_form_page', true);
-											query_posts( array( 'page_id' => $contact_form_page_id ) );
-											if ( have_posts() ) : while ( have_posts() ) : the_post();
-												the_content();
-											endwhile; endif;
-											wp_reset_query();
-											?>
-											<?php echo get_post_meta($post->ID, 'fccpod_radio_page_footnote', true); // TODO: Style this?>
-											</div><!--radio-wrapper-->
-											<!-- END NORTHLAND OUTDOORS RADIO CONTENT-->
-										</div><!--content-area-->
-									</div><!--post-area-->
-								</div><!--post-content-wrapper-->
-								<?php get_sidebar(); ?>
-								<?php get_footer('section'); ?>
-							</div><!--post-content-contain-->
-						</div><!--post-content-in-->
-					</div><!--post-content-out-->
-				</div><!--post-social-in-->
-			</div><!--post-social-out-->
-		</div><!--content-in-->
-	</div><!--content-out-->
-</div><!--content-wrapper-->
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+<?php get_sidebar(); ?>
 <?php get_footer(); ?>

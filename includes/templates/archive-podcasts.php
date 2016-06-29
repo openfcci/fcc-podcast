@@ -13,7 +13,7 @@
 								<div id="post-content-wrapper" class="relative" <?php post_class(); ?>>
 									<div id="post-area" class="left relative">
 										<div id="content-area" class="left relative" itemprop="articleBody">
-											<!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
+											<!-- *** START PODCASTS CONTENT *** -->
 
 											<div class="radio-wrapper">
 
@@ -84,7 +84,7 @@
                         <!-- END STATIONS-->
 
 											</div><!--radio-wrapper-->
-											<!-- END NORTHLAND OUTDOORS RADIO CONTENT-->
+											<!-- END PODCASTS CONTENT-->
 										</div><!--content-area-->
 									</div><!--post-area-->
 								</div><!--post-content-wrapper-->

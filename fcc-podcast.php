@@ -31,7 +31,6 @@ function fccpod_plugin_activation() {
 	fccpod_create_podcast_page();
 }
 register_activation_hook( __FILE__, 'fccpod_plugin_activation' );
-
 /**
  * Plugin Deactivation Hook
  */
@@ -260,6 +259,7 @@ add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
  * @link https://codex.wordpress.org/Rewrite_API/add_feed
  */
 function fccpod_do_podcasts_feed() {
+
 	# Load the functions file
 	require_once( plugin_dir_path( __FILE__ ) . '/includes/podcasts-feed-functions.php' );
 	# Declare the feed
