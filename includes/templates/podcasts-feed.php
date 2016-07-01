@@ -111,7 +111,7 @@ if ( $the_query->have_posts( )  ) {
 		$segment_title = 'Episode ' . $episode . ' - ' . $segment_title;
 
 		# Item <itunes:subtitle>
-		$segment_subtitle = sanitize_text_field( $post->post_content);
+		$segment_subtitle = sanitize_text_field( $post->post_content );
 		$segment_subtitle = substr_replace( rtrim( substr( $segment_subtitle, 0, 252 ), ' ' ), '...', 252 );
 
 		# Item <itunes:summary>
@@ -161,8 +161,6 @@ if ( $the_query->have_posts( )  ) {
 
 			$item_1_duration = $item_1->addChild( 'xmlns:itunes:duration', $segment_duration );
 		}
-
-
 	} // end while;
 
 	/* Restore original Post Data */

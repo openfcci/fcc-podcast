@@ -1,2 +1,2 @@
-# fcc-podcast
-General use podcasts plugin. 
+# FCC Podcast
+General use podcasts plugin.
