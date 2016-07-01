@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: FCC Podcast
+ * Plugin Name: FCC Podcasts
  * Description: General use podcasts plugin for FCC employees with JW player content.
  * Plugin URI:  https://github.com/openfcci/fcc-podcast/
  * Author:      Forum Communications Company
  * Author URI:  http://www.forumcomm.com/
  * License:     GPL v2 or later
  * Text Domain: fccpod
- * Version:     1.16.05.25
+ * Version:     1.16.07.01
  */
 
 # Exit if accessed directly
@@ -28,10 +28,9 @@ function fccpod_plugin_activation() {
 	# Flush our rewrite rules on activation.
 	flush_rewrite_rules();
 	#Create radio page if it doesn't exist.
-	fccpod_create_radio_page();
+	fccpod_create_podcast_page();
 }
 register_activation_hook( __FILE__, 'fccpod_plugin_activation' );
-
 /**
  * Plugin Deactivation Hook
  */
@@ -50,17 +49,17 @@ register_deactivation_hook( __FILE__, 'fccpod_plugin_deactivation' );
  * @since 0.16.02.17
  * @version 1.16.05.26
  */
-function fccpod_create_radio_page() {
+function fccpod_create_podcast_page() {
 	# Initialize the page ID to -1. This indicates no action has been taken.
 	$post_id = -1;
 
 	# Setup the author, slug, and title for the post
 	$author_id = 1;
-	$slug = 'radio';
-	$title = 'Radio';
+	$slug = 'podcasts';
+	$title = 'Podcasts';
 
 	# If the page doesn't already exist, then create it
-	if ( null == get_page_by_path( 'radio' ) ) {
+	if ( null == get_page_by_path( 'podcasts' ) ) {
 		# Set the post ID so that we know the post was created successfully
 		$post_id = wp_insert_post( array(
 			'comment_status'	=> 'closed',
@@ -90,7 +89,9 @@ if ( ! get_option( 'fccpod_podcast_terms' ) ) {
 }
 
 # JW Platform/BOTR API
-require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
+if ( ! class_exists( 'BotrAPI' ) ) {
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
+}
 
 # Page Template Redirects
 require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
@@ -122,14 +123,6 @@ add_filter( 'acf/settings/show_admin', '__return_false' );
 # 4. Include ACF
 include_once( plugin_dir_path( __FILE__ ) . 'includes/advanced-custom-fields-pro/acf.php' );
 
-# 5. Local JSON (http://www.advancedcustomfields.com/resources/local-json/)
-
-# 6. Include ACF Accordion Field Type
-function include_field_types_accordion( $version ) {
-	include_once( plugin_dir_path( __FILE__ ) . 'includes/acf-accordion/acf-accordion-v5.php' );
-}
-add_action( 'acf/include_field_types', 'include_field_types_accordion' );
-
 /*--------------------------------------------------------------
  # LOAD INCLUDES FILES Pt. 3
  --------------------------------------------------------------*/
@@ -139,13 +132,12 @@ require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-functions.php' );
 
 # ACF: Add Admin Pages
 require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-settings-page.php' );
-require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-upcoming-shows.php' );
 
 # ACF: Load Custom Fields
 require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
 # Insert Post Functions
-require_once( plugin_dir_path( __FILE__ ) . '/includes/insert-post-functions.php' );
+require_once( plugin_dir_path( __FILE__ ) . '/includes/update-post-functions.php' );
 
 /*--------------------------------------------------------------
  # ADMIN NOTICES
@@ -166,26 +158,8 @@ function add_admin_notices() {
 add_action( 'init', 'add_admin_notices' );
 
 /*--------------------------------------------------------------
- 1# ENQUEUE STYLES & SCRIPTS
+ # ENQUEUE STYLES & SCRIPTS
  --------------------------------------------------------------*/
-
-/**
- * Load 'Radio' Page Scripts and Styles
- *
- * Only loads on front end, if the page slug is 'radio'
- * @author Braden Stevenson <braden.stevenson@forumcomm.com>
- * @since 0.16.02.05
- * @version 1.16.05.26
- */
-function load_on_radio_page() {
-	if ( is_page( 'radio' ) ) {
-		wp_enqueue_style( 'custom_css_fccpod', plugin_dir_url( __FILE__ ) . '/includes/css/fccpod.css' );
-		wp_enqueue_style( 'font_awesome', 'http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css' );
-		wp_register_script( 'fccpod_js', plugin_dir_url( __FILE__ ) . '/includes/js/fccpod.js', array( 'jquery' ), '', true );
-		wp_enqueue_script( 'fccpod_js' );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'load_on_radio_page' );
 
 /**
  * Load 'Podcasts' Admin Scripts
@@ -204,7 +178,6 @@ function load_on_podcasts_admin() {
 	if ( 'podcasts' != $screen->id ) {
 		return;
 	} # Else Proceed
-	wp_enqueue_script( 'admin_title_disable', plugin_dir_url( __FILE__ ) . '/includes/js/admin_title_disable.js' );
 	wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
 }
 add_action( 'admin_enqueue_scripts', 'load_on_podcasts_admin' );
@@ -259,9 +232,39 @@ add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
  * @link https://codex.wordpress.org/Rewrite_API/add_feed
  */
 function fccpod_do_podcasts_feed() {
+
 	# Load the functions file
 	require_once( plugin_dir_path( __FILE__ ) . '/includes/podcasts-feed-functions.php' );
 	# Declare the feed
 	add_feed( 'podcasts', 'add_podcasts_feed' );
 }
 add_action( 'init', 'fccpod_do_podcasts_feed' );
+
+/*--------------------------------------------------------------
+ # TinyMCE Character Limit
+ --------------------------------------------------------------*/
+function fccpod_tinymce_init() {
+	// Hook to tinymce plugins filter
+	add_filter( 'mce_external_plugins', 'fccpod_tinymce_plugin' );
+}
+add_filter( 'init', 'fccpod_tinymce_init' );
+
+function fccpod_tinymce_plugin( $init ) {
+	global $my_admin_page;
+	$screen = get_current_screen();
+	if ( 'podcasts' != $screen->id ) {
+		return;
+	} # Else Proceed
+	$init['keyup_event'] = plugin_dir_url( __FILE__ ) . '/includes/js/limitchars.js';
+	return $init;
+}
+
+add_action('admin_head', function() {
+	?>
+	<style type="text/css">
+	#titlediv {
+		display: none;
+	}
+	</style>
+	<?php
+});

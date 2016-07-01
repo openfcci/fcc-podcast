@@ -23,8 +23,8 @@ function fccpod_theme_redirect() {
 	global $wp;
 	$plugindir = plugin_dir_path( __FILE__ );
 	# Radio Page
-	if ( 'radio' == $wp->query_vars['pagename'] ) {
-		$templatefilename = 'page-radio.php'; // $templatefilename = 'page-somepagename.php';
+	if ( 'podcasts' == $wp->query_vars['pagename'] ) {
+		$templatefilename = 'page-podcasts.php'; // $templatefilename = 'page-somepagename.php';
 		if ( file_exists( TEMPLATEPATH . '/' . $templatefilename ) ) {
 			$return_template = TEMPLATEPATH . '/' . $templatefilename;
 		} else {
@@ -35,7 +35,7 @@ function fccpod_theme_redirect() {
 }
 
 if ( ! get_option( 'options_radio_page_toggle' ) ) {
-	add_action( 'template_redirect', 'fccpod_theme_redirect' );
+	//add_action( 'template_redirect', 'fccpod_theme_redirect' );
 }
 
 function do_theme_redirect( $url ) {
@@ -53,54 +53,58 @@ function do_theme_redirect( $url ) {
  *
  * Filters the content of single.php for podcasts posts.
  * @since 0.16.02.11
- * @version 1.16.05.26
+ * @version 1.16.06.28
  */
-function fccpod_podcast_single_post_content( $content ) {
-	if ( is_singular( 'podcasts' ) && ! is_admin() ) {
+function jwplayer_before_content( $content ) {
+
+	if ( is_singular( 'podcasts' ) ) {
 		$id = $GLOBALS['post']->ID;
-		$content = '';
-
-		# POST META
-		$segment_1_title = get_post_meta( $id, 'segment_1_title', true );
-		$segment_2_title = get_post_meta( $id, 'segment_2_title', true );
-		$segment_3_title = get_post_meta( $id, 'segment_3_title', true );
-
-		$segment_1_description = get_post_meta( $id, 'segment_1_description', true );
-		$segment_2_description = get_post_meta( $id, 'segment_2_description', true );
-		$segment_3_description = get_post_meta( $id, 'segment_3_description', true );
-
-		$segment_1_link = get_post_meta( $id, 'segment_1_link', true );
-		$segment_2_link = get_post_meta( $id, 'segment_2_link', true );
-		$segment_3_link = get_post_meta( $id, 'segment_3_link', true );
-
-		# Segment 1
-		if ( $segment_1_link ) {
-			$segment_1_title_link .= '<a href="' .	$segment_1_link . '" target="_blank">' . $segment_1_title . '</a> &ndash; ';
-		} else {
-			$segment_1_title_link = '';
-		}
-
-		# Segment 2
-		if ( $segment_2_link ) {
-			$segment_2_title_link .= '<a href="' .	$segment_2_link . '" target="_blank">' . $segment_2_title . '</a> &ndash; ';
-		} else {
-			$segment_2_title_link = '';
-		}
-
-		# Segment 3
-		if ( $segment_3_link ) {
-			$segment_3_title_link .= '<a href="' .	$segment_3_link . '" target="_blank">' . $segment_3_title . '</a> &ndash; ';
-		} else {
-			$segment_3_title_link = '';
-		}
-
-		# The Content *****/
-		$content .= '<ul>';
-		$content .= '<li>' . $segment_1_title_link . $segment_1_description . '</li>';
-		$content .= '<li>' . $segment_2_title_link . $segment_2_description . '</li>';
-		$content .= '<li>' . $segment_3_title_link . $segment_3_description . '</li>';
-		$content .= '</ul>';
+		//Get Segment Key
+		$segment_jw_key = get_post_meta( $id, 'segment_1_key', true );
+		//Get Video Embed
+		$jw_video_embed = '
+		<script type="text/javascript" src="//content.jwplatform.com/libraries/XmRneLwC.js"></script>
+		<div id="'. $segment_jw_key .'">Loading the player...</div>
+		<script type="text/javascript">
+		var playerInstance = jwplayer("'. $segment_jw_key .'");
+		playerInstance.setup({
+			file: "//content.jwplatform.com/videos/'. $segment_jw_key .'.mp4",
+			image: "http://assets-jpcust.jwpsrv.com/thumbs/'. $segment_jw_key .'.jpg",
+			autostart: false
+		});
+		</script>';
+		$content = $jw_video_embed . $content;
 	}
 	return $content;
 }
-add_filter( 'the_content', 'fccpod_podcast_single_post_content' );
+//add_filter( 'the_content', 'jwplayer_before_content' );
+
+/**
+ * Podcasts Post single.php - Featured Image
+ *
+ * Filters and replaced the Featured Image with the Podcast Video on the Post page.
+ * @since 1.16.07.01
+ * @version 1.16.07.01
+ */
+function featured_image_caption( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+	if ( is_singular( 'podcasts' ) ) {
+		$id = $GLOBALS['post']->ID;
+		//Get Segment Key
+		$segment_jw_key = get_post_meta( $id, 'segment_1_key', true );
+		//Get Video Embed
+		$jw_video_embed = '
+		<script type="text/javascript" src="//content.jwplatform.com/libraries/XmRneLwC.js"></script>
+		<div id="'. $segment_jw_key .'">Loading the player...</div>
+		<script type="text/javascript">
+		var playerInstance = jwplayer("'. $segment_jw_key .'");
+		playerInstance.setup({
+			file: "//content.jwplatform.com/videos/'. $segment_jw_key .'.mp4",
+			image: "http://assets-jpcust.jwpsrv.com/thumbs/'. $segment_jw_key .'.jpg",
+			autostart: false
+		});
+		</script>';
+		$html = $jw_video_embed . $html;
+	}
+	return $html;
+}
+add_filter( 'post_thumbnail_html', 'featured_image_caption', 200, 5 );
