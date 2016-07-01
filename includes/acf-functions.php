@@ -40,14 +40,6 @@ function fccpod_field_readonly_filter($field) {
 add_filter("acf/load_field/name=segment_1_duration", "fccpod_field_readonly_filter");
 add_filter("acf/load_field/name=segment_1_date", "fccpod_field_readonly_filter");
 add_filter("acf/load_field/name=segment_1_size", "fccpod_field_readonly_filter");
-# Segment 2
-add_filter("acf/load_field/name=segment_2_duration", "fccpod_field_readonly_filter");
-add_filter("acf/load_field/name=segment_2_date", "fccpod_field_readonly_filter");
-add_filter("acf/load_field/name=segment_2_size", "fccpod_field_readonly_filter");
-# Segment 3
-add_filter("acf/load_field/name=segment_3_duration", "fccpod_field_readonly_filter");
-add_filter("acf/load_field/name=segment_3_date", "fccpod_field_readonly_filter");
-add_filter("acf/load_field/name=segment_3_size", "fccpod_field_readonly_filter");
 # Episode Number
 add_filter("acf/load_field/name=podcast_episode_number", "fccpod_field_readonly_filter");
 
@@ -75,11 +67,11 @@ add_filter('acf/load_field/name=segment_thumbnail', 'fccpod_segment_thumbnail_lo
  * @since 0.16.02.04
  * @link http://www.advancedcustomfields.com/resources/acfload_value/
  */
-function fccpod_podcasts_channel_title_filter($field) {
-  $field['default_value'] = get_bloginfo('name');
-	return $field;
-}
-add_filter("acf/load_field/name=podcasts_channel_title", "fccpod_podcasts_channel_title_filter");
+// function fccpod_podcasts_channel_title_filter($field) {
+//   $field['default_value'] = get_bloginfo('name');
+// 	return $field;
+// }
+// add_filter("acf/load_field/name=podcasts_channel_title", "fccpod_podcasts_channel_title_filter");
 
 /**
  * Set Default "Channel Link" Value

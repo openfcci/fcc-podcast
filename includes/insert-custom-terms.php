@@ -10,22 +10,6 @@ if ( ! get_option('fccpod_station_terms') ) {
 	add_action( 'wp_loaded', 'fccpod_insert_station_terms', 200 );
 }
 
-function fccpod_insert_station_terms() {
-  wp_insert_term( 'Radio', 'station_type', array( 'description'	=> 'Northland Outdoors Radio Station Affiliate.', 'slug' => 'radio' ) );
-  wp_insert_term( 'TV', 'station_type', array( 'description'	=> 'Northland Outdoors TV Station Affiliate.', 'slug' => 'tv' ) );
-  wp_insert_term( 'IA', 'station_state', array( 'description'	=> 'Iowa', 'slug' => 'ia' ) );
-  wp_insert_term( 'MB', 'station_state', array( 'description'	=> 'Manitoba', 'slug' => 'mb' ) );
-  wp_insert_term( 'MN', 'station_state', array( 'description'	=> 'Minnesota', 'slug' => 'mn' ) );
-  wp_insert_term( 'MT', 'station_state', array( 'description'	=> 'Montana', 'slug' => 'mt' ) );
-  wp_insert_term( 'ND', 'station_state', array( 'description'	=> 'North Dakota', 'slug' => 'nd' ) );
-  wp_insert_term( 'SD', 'station_state', array( 'description'	=> 'South Dakota', 'slug' => 'sd' ) );
-  wp_insert_term( 'WI', 'station_state', array( 'description'	=> 'Wisconsin', 'slug' => 'wi' ) );
-
-	# After update, set option to prevent recursion
-	update_option('fccpod_station_terms','1');
-}
-
-
 /**
  * Insert the default iTunes Category Terms
  *

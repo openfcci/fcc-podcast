@@ -13,7 +13,7 @@
 								<div id="post-content-wrapper" class="relative" <?php post_class(); ?>>
 									<div id="post-area" class="left relative">
 										<div id="content-area" class="left relative" itemprop="articleBody">
-											<!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
+											<!-- *** START PODCASTS CONTENT *** -->
 
 											<div class="radio-wrapper">
 
@@ -51,16 +51,10 @@
                             <?php
                             /**** POST META  *****/
                             $segment_1_title = get_post_meta($id, 'segment_1_title', true);
-                            $segment_2_title = get_post_meta($id, 'segment_2_title', true);
-                            $segment_3_title = get_post_meta($id, 'segment_3_title', true);
 
                             $segment_1_description = get_post_meta($id, 'segment_1_description', true);
-                            $segment_2_description = get_post_meta($id, 'segment_2_description', true);
-                            $segment_3_description = get_post_meta($id, 'segment_3_description', true);
 
                             $segment_1_link = get_post_meta($id, 'segment_1_link', true);
-                            $segment_2_link = get_post_meta($id, 'segment_2_link', true);
-                            $segment_3_link = get_post_meta($id, 'segment_3_link', true);
                             ?>
 
                           <?php if ( $station_website ) { echo '<a href="' .  $station_website . '" target="_blank">';}?>
@@ -75,16 +69,6 @@
                               echo '<li>';
                               if ( $segment_1_link ) { echo '<a href="' .  $segment_1_link . '" target="_blank">' . $segment_1_title . '</a> &ndash; ';}
                               echo $segment_1_description . '</li>'; ?>
-
-                              <?php
-                              echo '<li>';
-                              if ( $segment_2_link ) { echo '<a href="' .  $segment_2_link . '" target="_blank">' . $segment_2_title . '</a> &ndash; ';}
-                              echo $segment_2_description . '</li>'; ?>
-
-                              <?php
-                              echo '<li>';
-                              if ( $segment_3_link ) { echo '<a href="' .  $segment_3_link . '" target="_blank">' . $segment_3_title . '</a> &ndash; ';}
-                              echo $segment_3_description . '</li>'; ?>
                             </ul>
                           </div>
 
@@ -100,7 +84,7 @@
                         <!-- END STATIONS-->
 
 											</div><!--radio-wrapper-->
-											<!-- END NORTHLAND OUTDOORS RADIO CONTENT-->
+											<!-- END PODCASTS CONTENT-->
 										</div><!--content-area-->
 									</div><!--post-area-->
 								</div><!--post-content-wrapper-->
