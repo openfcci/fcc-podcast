@@ -182,6 +182,23 @@ function load_on_podcasts_admin() {
 }
 add_action( 'admin_enqueue_scripts', 'load_on_podcasts_admin' );
 
+/**
+ * Hides the title in the Podcasts post editor screen
+ *
+ * @since 1.16.07.01
+ * @since 1.16.07.06
+ */
+function fccpod_hide_podcasts_title() {
+	global $my_admin_page;
+	$screen = get_current_screen();
+	if ( 'podcasts' != $screen->id ) {
+		return;
+	} # Else Proceed
+	echo '<style type="text/css">#titlediv { display: none; }</style>';
+}
+add_action( 'admin_head', 'fccpod_hide_podcasts_title' );
+
+
 /*--------------------------------------------------------------
  # AJAX
  --------------------------------------------------------------*/
@@ -258,13 +275,3 @@ function fccpod_tinymce_plugin( $init ) {
 	$init['keyup_event'] = plugin_dir_url( __FILE__ ) . '/includes/js/limitchars.js';
 	return $init;
 }
-
-add_action('admin_head', function() {
-	?>
-	<style type="text/css">
-	#titlediv {
-		display: none;
-	}
-	</style>
-	<?php
-});
