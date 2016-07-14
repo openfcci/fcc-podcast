@@ -9,7 +9,7 @@
  * Triggers on save, edit or update of published podcasts
  * Works in "Quick Edit", but not bulk edit.
  * @since 0.16.01.28
- * @version 0.16.06.30
+ * @version 1.16.07.14
  */
 function fccpod_update_title_and_slug( $post_id, $post, $update ) {
 
@@ -34,23 +34,25 @@ function fccpod_update_title_and_slug( $post_id, $post, $update ) {
 		update_post_meta( $post_id, 'podcast_episode_number', $episode_number );
 	}
 
-	# Update the Post Content
-	$description = get_post_meta( $post_id, 'segment_1_description', true );
-	$title = get_post_meta( $post_id, 'segment_1_title', true );
-	$content = array(
-		'ID' => $post_id,
-		'post_title'   => $title,
-		'post_content' => $description,
-	);
-	remove_action( 'save_post', 'fccpod_update_title_and_slug' );
-	wp_update_post( $content );
-	$category_id = get_term_by( 'name', 'Podcast', 'category' )->term_id;
-	if ( ! $category_id ) {
-		$category_id = wp_insert_term( 'Podcast', 'category', array( 'description' => '', 'slug' => 'podcast' ) );
+	if ( 'podcasts' == $post->post_type ) {
+		# Update the Post Content
+		$description = get_post_meta( $post_id, 'segment_1_description', true );
+		$title = get_post_meta( $post_id, 'segment_1_title', true );
+		$content = array(
+			'ID' => $post_id,
+			'post_title'   => $title,
+			'post_content' => $description,
+		);
+		remove_action( 'save_post', 'fccpod_update_title_and_slug' );
+		wp_update_post( $content );
 		$category_id = get_term_by( 'name', 'Podcast', 'category' )->term_id;
+		if ( ! $category_id ) {
+			$category_id = wp_insert_term( 'Podcast', 'category', array( 'description' => '', 'slug' => 'podcast' ) );
+			$category_id = get_term_by( 'name', 'Podcast', 'category' )->term_id;
+		}
+		wp_set_post_categories( $post_id, $category_id );
+		add_action( 'save_post', 'fccpod_update_title_and_slug' );
 	}
-	wp_set_post_categories( $post_id, $category_id );
-	add_action( 'save_post', 'fccpod_update_title_and_slug' );
 
 }
 add_action( 'save_post', 'fccpod_update_title_and_slug', 10, 3 );
