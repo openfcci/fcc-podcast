@@ -27,7 +27,7 @@ $xml->registerXPathNamespace( 'itunes', 'http://www.itunes.com/dtds/podcast-1.0.
 $xml->addAttribute( 'version', '2.0' );
 
 /**** Channel META  *****/
-$channel_title = sanitize_text_field( get_option( 'options_podcasts_channel_title' ) );
+$channel_title = htmlspecialchars( sanitize_text_field( get_option( 'options_podcasts_channel_title' ) ), ENT_QUOTES );
 $channel_link = get_option( 'options_podcasts_channel_link' );
 $channel_image = wp_get_attachment_url( get_option( 'options_podcasts_channel_image' ) );
 $channel_keywords = get_option( 'options_podcasts_channel_keywords' );
@@ -107,7 +107,7 @@ if ( $the_query->have_posts( )  ) {
 
 		/***** ITEM META *****/
 		# Item <title>
-		$segment_title = sanitize_text_field( get_post_meta( $id, 'segment_1_title', true ) );
+		$segment_title = htmlspecialchars( sanitize_text_field( get_post_meta( $id, 'segment_1_title', true ) ), ENT_QUOTES );
 		$segment_title = 'Episode ' . $episode . ' - ' . $segment_title;
 
 		# Item <itunes:subtitle>
