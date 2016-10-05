@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: FCC Podcasts
- * Description: General use podcasts plugin for FCC employees with JW player content.
+ * Description: General use podcasts plugin for FCC employees with JW player content. Use the AreaVoices Contributor Theme to take full advantage of the podcast-to-blog-post functionality, however the podcast channel functional is theme-agnostic.
  * Plugin URI:  https://github.com/openfcci/fcc-podcast/
  * Author:      Forum Communications Company
  * Author URI:  http://www.forumcomm.com/
  * License:     GPL v2 or later
  * Text Domain: fccpod
- * Version:     1.16.09.27
+ * Version:     1.16.10.05
  */
 
 # Exit if accessed directly

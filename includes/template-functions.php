@@ -1,6 +1,42 @@
 <?php
+/**
+ * Podcasts Post single.php - Featured Image
+ *
+ * Filters and replaced the Featured Image with the Podcast Video on the Post page.
+ * @since 1.16.07.01
+ * @version 1.16.10.05
+ */
+function jw_featured_image( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+	if ( is_singular( 'podcasts' ) ) {
+		$post_id = $GLOBALS['post']->ID;
+
+		$segment_jw_key = get_post_meta( $post_id, 'segment_1_key', true );
+		$featured_image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'large' )[0];
+
+		// Get Video Embed
+		$jw_video_embed = '
+		<script type="text/javascript" src="//content.jwplatform.com/libraries/XmRneLwC.js"></script>
+		<div id="'. $segment_jw_key .'">Loading the player...</div>
+		<script type="text/javascript">
+		var playerInstance = jwplayer("'. $segment_jw_key .'");
+		playerInstance.setup({
+			file: "//content.jwplatform.com/videos/'. $segment_jw_key .'.mp4",
+			image: "'. $featured_image .'",
+			autostart: false
+		});
+		</script>';
+
+		$html = $jw_video_embed . $html;
+	}
+
+	return $html;
+}
+add_filter( 'post_thumbnail_html', 'jw_featured_image', 200, 5 );
+
+//image: "http://assets-jpcust.jwpsrv.com/thumbs/'. $segment_jw_key .'.jpg",
+
 /*--------------------------------------------------------------
-# Template Functions
+# Template Functions (currently deprecated/not used)
 --------------------------------------------------------------*/
 
 /*
@@ -49,7 +85,7 @@ function do_theme_redirect( $url ) {
 }
 
 /**
- * Podcasts Post single.php - Content
+ * Podcasts Post single.php - Content (currently deprecated/not used)
  *
  * Filters the content of single.php for podcasts posts.
  * @since 0.16.02.11
@@ -78,33 +114,3 @@ function jwplayer_before_content( $content ) {
 	return $content;
 }
 //add_filter( 'the_content', 'jwplayer_before_content' );
-
-/**
- * Podcasts Post single.php - Featured Image
- *
- * Filters and replaced the Featured Image with the Podcast Video on the Post page.
- * @since 1.16.07.01
- * @version 1.16.07.01
- */
-function featured_image_caption( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
-	if ( is_singular( 'podcasts' ) ) {
-		$id = $GLOBALS['post']->ID;
-		//Get Segment Key
-		$segment_jw_key = get_post_meta( $id, 'segment_1_key', true );
-		//Get Video Embed
-		$jw_video_embed = '
-		<script type="text/javascript" src="//content.jwplatform.com/libraries/XmRneLwC.js"></script>
-		<div id="'. $segment_jw_key .'">Loading the player...</div>
-		<script type="text/javascript">
-		var playerInstance = jwplayer("'. $segment_jw_key .'");
-		playerInstance.setup({
-			file: "//content.jwplatform.com/videos/'. $segment_jw_key .'.mp4",
-			image: "http://assets-jpcust.jwpsrv.com/thumbs/'. $segment_jw_key .'.jpg",
-			autostart: false
-		});
-		</script>';
-		$html = $jw_video_embed . $html;
-	}
-	return $html;
-}
-add_filter( 'post_thumbnail_html', 'featured_image_caption', 200, 5 );
