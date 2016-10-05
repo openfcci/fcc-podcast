@@ -7,7 +7,8 @@
  * Author URI:  http://www.forumcomm.com/
  * License:     GPL v2 or later
  * Text Domain: fccpod
- * Version:     1.16.10.05
+ * Network:			True
+ * Version:			1.16.10.05
  */
 
 # Exit if accessed directly
@@ -27,10 +28,21 @@ define( 'FCCPOD__PLUGIN_DIR',  plugin_dir_url( __FILE__ ) );
 function fccpod_plugin_activation() {
 	# Flush our rewrite rules on activation.
 	flush_rewrite_rules();
-	#Create radio page if it doesn't exist.
-	fccpod_create_podcast_page();
+	# Update Jetpack Social Sharing Options
+	fccpod_update_jetpack_sharing_options();
 }
 register_activation_hook( __FILE__, 'fccpod_plugin_activation' );
+
+/**
+ * Add 'postcasts' to Jetpack Social Sharing options
+ */
+function fccpod_update_jetpack_sharing_options() {
+	if ( $sharing_options = get_option( 'sharing-options' ) ) {
+		$sharing_options['global']['show'][] = 'podcasts';
+		update_option( 'sharing-options', $sharing_options );
+	}
+}
+
 /**
  * Plugin Deactivation Hook
  */
@@ -40,41 +52,6 @@ function fccpod_plugin_deactivation() {
 }
 register_deactivation_hook( __FILE__, 'fccpod_plugin_deactivation' );
 
-/**
- * Create Radio Page
- *
- * Creates the 'radio' page on plugin activation if one does not already exist.
- *
- * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
- * @since 0.16.02.17
- * @version 1.16.05.26
- */
-function fccpod_create_podcast_page() {
-	# Initialize the page ID to -1. This indicates no action has been taken.
-	$post_id = -1;
-
-	# Setup the author, slug, and title for the post
-	$author_id = 1;
-	$slug = 'podcasts';
-	$title = 'Podcasts';
-
-	# If the page doesn't already exist, then create it
-	if ( null == get_page_by_path( 'podcasts' ) ) {
-		# Set the post ID so that we know the post was created successfully
-		$post_id = wp_insert_post( array(
-			'comment_status'	=> 'closed',
-			'ping_status'			=> 'closed',
-			'post_author'			=> $author_id,
-			'post_name'				=> $slug,
-			'post_title'			=> $title,
-			'post_status'			=> 'publish',
-			'post_type'				=> 'page',
-		));
-	} else { # Otherwise, we'll stop
-		# Arbitrarily use -2 to indicate that the page with the title already exists
-		$post_id = -2;
-	} # end if
-}
 
 /*--------------------------------------------------------------
  # LOAD INCLUDES FILES Pt. 1
@@ -140,7 +117,7 @@ require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 require_once( plugin_dir_path( __FILE__ ) . '/includes/update-post-functions.php' );
 
 /*--------------------------------------------------------------
- # ADMIN NOTICES
+ # ADMIN NOTICES (NOTE: deprecated, network-options now used)
  --------------------------------------------------------------*/
 
 /**
@@ -151,11 +128,11 @@ require_once( plugin_dir_path( __FILE__ ) . '/includes/update-post-functions.php
 * @version 1.16.05.26
 */
 function add_admin_notices() {
-	if ( ! get_option( 'options_jw_platform_api_key' ) || ! get_option( 'options_jw_platform_api_secret' ) ) {
+	if ( ! get_site_option( 'jw_api_key' ) || ! get_site_option( 'jw_api_secret' ) ) {
 		require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-notices.php' );
 	}
 }
-add_action( 'init', 'add_admin_notices' );
+//add_action( 'init', 'add_admin_notices' );
 
 /*--------------------------------------------------------------
  # ENQUEUE STYLES & SCRIPTS

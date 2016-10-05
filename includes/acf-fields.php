@@ -62,6 +62,7 @@ acf_add_local_field_group( array (
 	'description' => '',
 ));
 
+/*
 acf_add_local_field_group(array (
 	'key' => 'group_56a66516decbd',
 	'title' => 'JW Platform API',
@@ -114,7 +115,7 @@ acf_add_local_field_group(array (
 			array (
 				'param' => 'options_page',
 				'operator' => '==',
-				'value' => 'acf-options-podcast-plugin-settings',
+				'value' => 'acf-options-podcast-settings',
 			),
 		),
 	),
@@ -129,6 +130,7 @@ acf_add_local_field_group(array (
 	'active' => 1,
 	'description' => '',
 ));
+*/
 
 acf_add_local_field_group(array (
 	'key' => 'group_56a1462b537dd',
@@ -483,7 +485,7 @@ acf_add_local_field_group(array (
 			array (
 				'param' => 'options_page',
 				'operator' => '==',
-				'value' => 'acf-options-podcast-plugin-settings',
+				'value' => 'acf-options-podcast-settings',
 			),
 		),
 	),

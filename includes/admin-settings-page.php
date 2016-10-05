@@ -8,8 +8,8 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 
 	# Plugin Settings Page
 	acf_add_options_sub_page( array(
-		'page_title' 	=> 'Podcast Plugin Settings',
-		'menu_title'	=> 'Podcast Plugin Settings',
+		'page_title' 	=> 'Podcast Settings',
+		'menu_title'	=> 'Podcast Settings',
 		'parent_slug'	=> 'options-general.php',
 	) );
 }

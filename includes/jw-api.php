@@ -10,7 +10,7 @@
  * @version 1.16.05.26
  */
 function fccpod_jw_key( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) ); // Instantiate the API.
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) ); // Instantiate the API.
 	$response = $botr_api->call( '/videos/show', array( 'video_key' => $key ) ); // Call the API
 	return $response;
 }
@@ -22,7 +22,7 @@ function fccpod_jw_key( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_api_status() {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/status' );
 	$status = $response['status'];
 	if ( 'ok' == $status ) { $status = true; } else { $status = false; }
@@ -39,7 +39,7 @@ function fccpod_jw_api_status() {
  * @version 1.16.05.26
  */
 function fccpod_jw_account_verify_api_key_secret() {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/accounts/list' );
 	if ( isset( $response ) && isset( $response['status'] ) ) {
 		if ( 'ok' === $response['status'] ) {
@@ -57,7 +57,7 @@ function fccpod_jw_account_verify_api_key_secret() {
  * @version 1.16.05.26
  */
 function fccpod_jw_list_conversions( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/conversions/list', array( 'video_key' => $key ) );
 	return $response;
 }
@@ -69,7 +69,7 @@ function fccpod_jw_list_conversions( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_video_status( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/show', array( 'video_key' => $key ) );
 	$status = $response['status'];
 
@@ -89,7 +89,7 @@ function fccpod_jw_video_status( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_description( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/show', array( 'video_key' => $key ) );
 	$description = $response['video']['description'];
 	return $description;
@@ -103,7 +103,7 @@ function fccpod_jw_description( $key ) {
  */
 function fccpod_jw_duration( $key ) {
 
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/show', array( 'video_key' => $key ) );
 	$duration = $response['video']['duration'];
 
@@ -122,7 +122,7 @@ function fccpod_jw_duration( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_conversion_duration( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/conversions/list', array( 'video_key' => $key ) );
 	$total = $response['total']; # Total number of conversions
 
@@ -142,7 +142,7 @@ function fccpod_jw_conversion_duration( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_size( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/conversions/list', array( 'video_key' => $key ) );
 	$total = $response['total']; # Total number of conversions
 
@@ -163,7 +163,7 @@ function fccpod_jw_size( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_date( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/show', array( 'video_key' => $key ) );
 	$pubdate = $response['video']['date'];
 	return $pubdate;
@@ -177,7 +177,7 @@ function fccpod_jw_date( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_date_rss( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/show', array( 'video_key' => $key ) );
 	$pubdate = $response['video']['date'];
 	$pubdate = date( DATE_RFC2822, $pubdate );
@@ -192,7 +192,7 @@ function fccpod_jw_date_rss( $key ) {
  * @version 1.16.05.26
  */
 function fccpod_jw_date_admin( $key ) {
-	$botr_api = new BotrAPI( get_option( 'options_jw_platform_api_key' ), get_option( 'options_jw_platform_api_secret' ) );
+	$botr_api = new BotrAPI( get_site_option( 'jw_api_key' ), get_site_option( 'jw_api_secret' ) );
 	$response = $botr_api->call( '/videos/show', array( 'video_key' => $key ) ); // TODO: JW Admin Date - Add Success/Fail validation & AJAX support
 	$pubdate = $response['video']['date'];
 	$pubdate = date( 'M d Y, g:ia', $pubdate );
