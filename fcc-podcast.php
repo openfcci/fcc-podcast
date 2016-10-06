@@ -7,7 +7,6 @@
  * Author URI:  http://www.forumcomm.com/
  * License:     GPL v2 or later
  * Text Domain: fccpod
- * Network:			True
  * Version:			1.16.10.05
  */
 
