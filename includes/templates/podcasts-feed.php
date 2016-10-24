@@ -9,7 +9,7 @@
  * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
  * @author Ryab Veitch <ryan.veitch@forumcomm.com>
  * @since 0.16.02.05
- * @version 0.16.05.25
+ * @version 1.16.10.24
  */
 
 header( 'Content-type: text/xml; charset=UTF-8' );
@@ -74,11 +74,15 @@ add_cdata( $summary_xml, $channel_summary );
 $image_xml = $channel_xml->addChild( 'xlmns:itunes:image' );
 $image_xml->addAttribute( 'href', $channel_image );
 
-$category_parent = $channel_xml->addChild( 'xlmns:itunes:category' );
-$category_parent->addAttribute( 'text', html_entity_decode( $channel_category_parent ) );
+if ( $channel_category_parent ) {
+	$category_parent = $channel_xml->addChild( 'xlmns:itunes:category' );
+	$category_parent->addAttribute( 'text', html_entity_decode( $channel_category_parent ) );
 
-$category_child = $category_parent->addChild( 'xlmns:itunes:category' );
-$category_child->addAttribute( 'text', html_entity_decode( $channel_category_child ) );
+	$category_child = $category_parent->addChild( 'xlmns:itunes:category' );
+	$category_child->addAttribute( 'text', html_entity_decode( $channel_category_child ) );
+} else {
+	$category_xml = $channel_xml->addChild( 'xlmns:itunes:category', $channel_category_child );
+}
 
 /* Add owner tag and childs */
 $owner_xml = $channel_xml->addChild( 'xlmns:itunes:owner' );
