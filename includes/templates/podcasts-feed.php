@@ -81,7 +81,8 @@ if ( $channel_category_parent ) {
 	$category_child = $category_parent->addChild( 'xlmns:itunes:category' );
 	$category_child->addAttribute( 'text', html_entity_decode( $channel_category_child ) );
 } else {
-	$category_xml = $channel_xml->addChild( 'xlmns:itunes:category', $channel_category_child );
+	$category_xml = $channel_xml->addChild( 'xlmns:itunes:category' );
+	$category_xml->addAttribute( 'text', html_entity_decode( $channel_category_child ) );
 }
 
 /* Add owner tag and childs */
