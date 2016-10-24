@@ -351,7 +351,7 @@ acf_add_local_field_group(array (
 			'max_width' => 3000,
 			'max_height' => 3000,
 			'max_size' => '',
-			'mime_types' => 'png,jpeg',
+			'mime_types' => 'png,jpg,jpeg',
 		),
 		array (
 			'key' => 'field_56b3e00997d40',

@@ -7,7 +7,7 @@
  * Author URI:  http://www.forumcomm.com/
  * License:     GPL v2 or later
  * Text Domain: fccpod
- * Version:			1.16.10.05
+ * Version:			1.16.10.24
  */
 
 # Exit if accessed directly
@@ -94,7 +94,7 @@ function my_acf_settings_dir( $dir ) {
 }
 
 # 3. Hide ACF field group menu item
-add_filter( 'acf/settings/show_admin', '__return_false' );
+//add_filter( 'acf/settings/show_admin', '__return_false' );
 
 # 4. Include ACF
 include_once( plugin_dir_path( __FILE__ ) . 'includes/advanced-custom-fields-pro/acf.php' );
