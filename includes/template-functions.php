@@ -20,7 +20,7 @@ function jw_featured_image( $html, $post_id, $post_thumbnail_id, $size, $attr ) 
 		<script type="text/javascript">
 		var playerInstance = jwplayer("'. $segment_jw_key .'");
 		playerInstance.setup({
-			file: "//content.jwplatform.com/videos/'. $segment_jw_key .'.mp4",
+			file: "//content.jwplatform.com/videos/'. $segment_jw_key .'.aac",
 			image: "'. $featured_image .'",
 			autostart: false
 		});
