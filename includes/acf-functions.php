@@ -76,17 +76,17 @@ function fccpod_podcasts_channel_link_filter( $field ) {
 add_filter( 'acf/load_field/name=podcasts_channel_link', 'fccpod_podcasts_channel_link_filter' );
 
 /**
- * Order "All Podcasts" & "All Stations" Pages by Date
+ * Order "All Podcasts" Pages by Date
  *
  * @since 0.16.01.28
- * @version 0.16.06.30
+ * @version 1.17.02.06
  */
 function fccpod_set_post_order_in_admin( $wp_query ) {
-	if ( is_admin() && function_exists('get_current_screen') ) {
+	if ( is_admin() && function_exists( 'get_current_screen' ) ) {
 		global $my_admin_page;
 		$screen = get_current_screen();
 
-		if ( ( 'edit-podcasts' == $screen->id || 'edit-stations' == $screen->id ) && ! isset( $_GET['orderby'] ) ) {
+		if ( ( 'edit-podcasts' == $screen->id ) && ! isset( $_GET['orderby'] ) ) {
 			$wp_query->set( 'orderby', 'date' );
 			$wp_query->set( 'order', 'DSC' );
 		}
