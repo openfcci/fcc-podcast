@@ -82,7 +82,7 @@ add_filter( 'acf/load_field/name=podcasts_channel_link', 'fccpod_podcasts_channe
  * @version 0.16.06.30
  */
 function fccpod_set_post_order_in_admin( $wp_query ) {
-	if ( is_admin() ) {
+	if ( is_admin() && function_exists('get_current_screen') ) {
 		global $my_admin_page;
 		$screen = get_current_screen();
 
