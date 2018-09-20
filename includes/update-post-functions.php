@@ -51,7 +51,7 @@ function fccpod_update_title_and_slug( $post_id, $post, $update ) {
 			$category_id = get_term_by( 'name', 'Podcast', 'category' )->term_id;
 		}
 		wp_set_post_categories( $post_id, $category_id );
-		add_action( 'save_post', 'fccpod_update_title_and_slug' );
+		add_action( 'save_post', 'fccpod_update_title_and_slug', 10, 3 );
 	}
 
 }
